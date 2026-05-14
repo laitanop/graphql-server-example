@@ -1,38 +1,215 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Layout shell */
+.app-layout {
   min-height: 100vh;
+  background: linear-gradient(165deg, #f4f6fb 0%, #eef1f8 45%, #e8ecf4 100%);
+}
+
+/* ——— Header ——— */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 28px;
+  line-height: 1.2;
+  background: #1d39c4;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26, 31, 60, 0.08);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 4px 24px rgba(26, 31, 60, 0.06);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.app-brand {
+  flex-shrink: 0;
+}
+
+.app-brand-icon {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f6ae8 0%, #6366f1 50%, #7c3aed 100%);
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
-.App-link {
-  color: #61dafb;
+.app-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.app-header-title {
+  margin: 0 !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.2 !important;
+}
+
+.app-header-subtitle {
+  font-size: 12px;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.app-nav {
+  flex-shrink: 0;
+}
+
+.app-nav-tag {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 6px;
+}
+
+.app-nav-divider {
+  border-color: rgba(26, 31, 60, 0.12);
+  margin: 0 8px;
+  height: 18px;
+}
+
+.app-nav-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #fff;
+  font-size: 17px;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.app-nav-icon-btn:hover {
+  color: #fff;
+  background: rgba(79, 106, 232, 0.08);
+}
+
+.app-nav-icon-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+a.app-nav-icon-btn {
+  text-decoration: none;
+}
+
+.app-nav-avatar {
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(26, 31, 60, 0.1);
+  transition: box-shadow 0.15s ease;
+}
+
+.app-nav-avatar:hover {
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.35),
+    0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+/* ——— Main: tab bar as navbar strip ——— */
+.app-content {
+  padding: 0;
+}
+
+.app-content-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+.app-main-tabs {
+  margin-top: 0;
+}
+
+.app-main-tabs > .ant-tabs-nav {
+  margin: 0 0 20px !important;
+  padding: 10px 4px 0;
+  background: transparent;
+}
+
+.app-main-tabs .ant-tabs-nav::before {
+  border-bottom-color: rgba(26, 31, 60, 0.08) !important;
+}
+
+.app-main-tabs .ant-tabs-tab {
+  padding: 12px 18px !important;
+  font-weight: 600;
+  font-size: 15px;
+  color: rgba(26, 31, 60, 0.55) !important;
+  transition: color 0.15s ease;
+}
+
+.app-main-tabs .ant-tabs-tab:hover {
+  color: #4f6ae8 !important;
+}
+
+.app-main-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #1a1f3c !important;
+}
+
+.app-main-tabs .ant-tabs-ink-bar {
+  height: 3px !important;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(90deg, #4f6ae8, #7c3aed) !important;
+}
+
+.app-main-tabs .ant-tabs-content-holder {
+  padding-top: 4px;
+}
+
+.app-tab-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ——— Footer ——— */
+.app-footer {
+  text-align: center;
+  padding: 20px 24px 28px;
+  color: rgba(26, 31, 60, 0.45);
+  font-size: 13px;
+  background: transparent;
+  border-top: 1px solid rgba(26, 31, 60, 0.06);
+}
+
+@media (max-width: 576px) {
+  .app-header {
+    padding: 0 16px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .app-header-subtitle {
+    display: none;
+  }
+
+  .app-content-inner {
+    padding: 0 16px 32px;
   }
 }
