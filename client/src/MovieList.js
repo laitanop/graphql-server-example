@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Row, Typography, Input, Space } from "antd";
+import { Typography, Input, Space } from "antd";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import CardMovie from "./common/CardMovie";
@@ -69,17 +69,15 @@ const MovieList = () => {
           />
         </Space.Compact>
       </div>
-      {movieData ? (
-        <Row>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
+        {movieData ? (
           <CardMovie key={movieData?.movie?.id} movie={movieData?.movie} />
-        </Row>
-      ) : (
-        <Row>
-          {data?.movies?.map((movie) => (
+        ) : (
+          data?.movies?.map((movie) => (
             <CardMovie key={movie.name} movie={movie} />
-          ))}
-        </Row>
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 };

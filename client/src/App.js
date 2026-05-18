@@ -27,7 +27,9 @@ const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: "http://localhost:4000/graphql" }),
+  link: new HttpLink({
+    uri: process.env.REACT_APP_GRAPHQL_URL || "http://localhost:4000/graphql",
+  }),
   cache: new InMemoryCache(),
 });
 
