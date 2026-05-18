@@ -9,21 +9,29 @@ const { Title, Text } = Typography;
 
 const QUERY_ALL_USERS = gql`
   query Users {
-    users {
-      id
-      name
-      nationality
-      username
+    usersCollection {
+      edges {
+        node {
+          id
+          name
+          nationality
+          username
+        }
+      }
     }
   }
 `;
 const QUERY_USER = gql`
-  query user($id: ID!) {
-    user(id: $id) {
-      id
-      name
-      nationality
-      username
+  query user($id: BigInt!) {
+    usersCollection(filter: { id: { eq: $id } }, first: 1) {
+      edges {
+        node {
+          id
+          name
+          nationality
+          username
+        }
+      }
     }
   }
 `;
@@ -31,7 +39,10 @@ const QUERY_USER = gql`
 export const UserList = () => {
   const [id, setId] = useState(null);
   const { loading, error, data } = useQuery(QUERY_ALL_USERS);
-  const { data: userData } = useQuery(QUERY_USER, { variables: { id } });
+  const { data: userData } = useQuery(QUERY_USER, {
+    variables: { id },
+    skip: !id,
+  });
 
   if (loading) {
     return (
@@ -55,7 +66,9 @@ export const UserList = () => {
     );
   }
 
-  const users = data?.users ?? [];
+  const users = data?.usersCollection?.edges?.map((e) => e.node) ?? [];
+  const searchedUser =
+    userData?.usersCollection?.edges?.[0]?.node ?? null;
 
   return (
     <div>
@@ -72,14 +85,17 @@ export const UserList = () => {
           <Input
             type="number"
             placeholder="Enter user id"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={id ?? ""}
+            onChange={(e) => {
+              const v = e.target.value;
+              setId(v === "" ? null : Number(v));
+            }}
           />
         </Space.Compact>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
-        {userData ? (
-          <CardComponent key={userData?.user?.id} user={userData?.user} />
+        {searchedUser ? (
+          <CardComponent key={searchedUser.id} user={searchedUser} />
         ) : (
           users.map((user) => <CardComponent key={user.id} user={user} />)
         )}

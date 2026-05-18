@@ -26,9 +26,16 @@ import MovieList from "./MovieList";
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
 
+const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: process.env.REACT_APP_GRAPHQL_URL || "http://localhost:4000/graphql",
+    uri: `${SUPABASE_URL}/graphql/v1`,
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    },
   }),
   cache: new InMemoryCache(),
 });

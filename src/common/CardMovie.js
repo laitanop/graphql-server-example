@@ -32,7 +32,7 @@ const CardMovie = ({ movie }) => {
           <div>
             <div style={{ display: "flex", gap: 10 }}>
               <Text strong>Year of Publication:</Text>
-              <Text mark>{movie.yearOfPublication}</Text>
+              <Text mark>{movie.year_of_publication}</Text>
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <Text strong>Director:</Text>
@@ -47,8 +47,8 @@ const CardMovie = ({ movie }) => {
             <br />
             <div style={{ display: "flex", gap: 10 }}>
               <Text strong>Rating:</Text>
-              <Text type={movie.rating >= 8 ? "success" : "warning"}>
-                {movie.rating.toFixed(1)}
+              <Text type={Number(movie.rating) >= 8 ? "success" : "warning"}>
+                {Number(movie.rating).toFixed(1)}
               </Text>
             </div>
             <br />

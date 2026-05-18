@@ -9,33 +9,41 @@ const { Title, Text } = Typography;
 
 const GET_MOVIES_LIST = gql`
   query GetMovies {
-    movies {
-      id
-      name
-      yearOfPublication
-      isInTheaters
-      image
-      description
-      director
-      genre
-      rating
-      likes
+    moviesCollection {
+      edges {
+        node {
+          id
+          name
+          year_of_publication
+          is_in_theaters
+          image
+          description
+          director
+          genre
+          rating
+          likes
+        }
+      }
     }
   }
 `;
 const GET_MOVIE = gql`
   query GetMovie($name: String!) {
-    movie(name: $name) {
-      id
-      name
-      yearOfPublication
-      isInTheaters
-      image
-      description
-      director
-      genre
-      rating
-      likes
+    moviesCollection(filter: { name: { eq: $name } }, first: 1) {
+      edges {
+        node {
+          id
+          name
+          year_of_publication
+          is_in_theaters
+          image
+          description
+          director
+          genre
+          rating
+          likes
+        }
+      }
     }
   }
 `;
@@ -45,8 +53,11 @@ const MovieList = () => {
   const { data } = useQuery(GET_MOVIES_LIST);
   const { data: movieData } = useQuery(GET_MOVIE, {
     variables: { name },
+    skip: !name,
   });
-  console.log(movieData?.movie?.image);
+
+  const movies = data?.moviesCollection?.edges?.map((e) => e.node) ?? [];
+  const searchedMovie = movieData?.moviesCollection?.edges?.[0]?.node ?? null;
 
   return (
     <div style={{ marginBottom: 24 }}>
@@ -56,8 +67,7 @@ const MovieList = () => {
         </Title>
 
         <Text type="secondary">
-          {data?.movies?.length} movie{data?.movies?.length !== 1 ? "s" : ""}{" "}
-          found
+          {movies.length} movie{movies.length !== 1 ? "s" : ""} found
         </Text>
       </div>
 
@@ -70,12 +80,10 @@ const MovieList = () => {
         </Space.Compact>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-        {movieData ? (
-          <CardMovie key={movieData?.movie?.id} movie={movieData?.movie} />
+        {searchedMovie ? (
+          <CardMovie key={searchedMovie.id} movie={searchedMovie} />
         ) : (
-          data?.movies?.map((movie) => (
-            <CardMovie key={movie.name} movie={movie} />
-          ))
+          movies.map((movie) => <CardMovie key={movie.id} movie={movie} />)
         )}
       </div>
     </div>
