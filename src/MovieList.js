@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-import { Typography, Input, Space } from "antd";
+import { Typography, Input, Space, Flex } from "antd";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import CardMovie from "./common/CardMovie";
+import AddMovie from "./AddMovie";
 
 const { Title, Text } = Typography;
 
@@ -29,7 +30,7 @@ const GET_MOVIES_LIST = gql`
 `;
 const GET_MOVIE = gql`
   query GetMovie($name: String!) {
-    moviesCollection(filter: { name: { eq: $name } }, first: 1) {
+    moviesCollection(filter: { name: { ilike: $name } }, first: 1) {
       edges {
         node {
           id
@@ -52,7 +53,7 @@ const MovieList = () => {
   const [name, setName] = useState("");
   const { data } = useQuery(GET_MOVIES_LIST);
   const { data: movieData } = useQuery(GET_MOVIE, {
-    variables: { name },
+    variables: { name: `%${name}%` },
     skip: !name,
   });
 
@@ -69,6 +70,10 @@ const MovieList = () => {
         <Text type="secondary">
           {movies.length} movie{movies.length !== 1 ? "s" : ""} found
         </Text>
+        <Flex justify="flex-end" align="center">
+          {" "}
+          <AddMovie />
+        </Flex>
       </div>
 
       <div style={{ marginBottom: 20 }}>
