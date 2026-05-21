@@ -38,7 +38,7 @@ const ADD_MOVIE = gql`
 const AddMovie = () => {
   const [open, setOpen] = useState(false);
   const [formInstance] = Form.useForm();
-  const [addMovie, { loading }] = useMutation(ADD_MOVIE, {
+  const [addMovie] = useMutation(ADD_MOVIE, {
     refetchQueries: ["GetMovies"],
   });
   const [form, setForm] = useState({
@@ -50,7 +50,7 @@ const AddMovie = () => {
     movieGenre: "",
   });
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState("Content of the modal");
+  const [setModalText] = useState("Content of the modal");
 
   const showModal = () => {
     setOpen(true);
