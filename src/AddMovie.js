@@ -10,8 +10,11 @@ import {
   Typography,
   Image,
   DatePicker,
+  Select,
 } from "antd";
 import { PlusOutlined, PictureOutlined } from "@ant-design/icons";
+import { fetchMovieInfo } from "./api/fetchMovieInfo";
+import { normalizeGenre } from "./helper/normalizeGenre";
 const { Meta } = Card;
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -42,15 +45,14 @@ const AddMovie = () => {
     refetchQueries: ["GetMovies"],
   });
   const [form, setForm] = useState({
-    movieName: "",
-    imageLink: "",
+    movieName: null,
+    imageLink: null,
     yearOfPublication: null,
-    movieDirector: "",
-    movieDescription: "",
-    movieGenre: "",
+    movieDirector: null,
+    movieDescription: null,
+    movieGenre: null,
   });
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [setModalText] = useState("Content of the modal");
 
   const showModal = () => {
     setOpen(true);
@@ -61,20 +63,27 @@ const AddMovie = () => {
     setForm({ movieName: "", imageLink: "" });
   };
   const onFinish = async (values) => {
+    // const fetchMovie = await fetchMovieInfo(values.movieName);
+    const fetchMovie = await fetchMovieInfo(values.movieName);
+
     await addMovie({
       variables: {
         movie: {
           name: values.movieName,
-          image: values.imageLink,
+          image: values.imageLink || fetchMovie.Poster,
           year_of_publication: values.yearOfPublication
             ? new Date(values.yearOfPublication).getFullYear()
-            : null,
-          director: values.movieDirector,
-          genre: values.movieGenre
-            ? values.movieGenre.split(",").map((g) => g.trim())
-            : [],
-          description: values.movieDescription,
-          rating: "0",
+            : Number(fetchMovie.Year),
+          director: values.movieDirector || fetchMovie.Director,
+          genre:
+            normalizeGenre(values.movieGenre).length > 0
+              ? normalizeGenre(values.movieGenre)
+              : normalizeGenre(fetchMovie.Genre),
+          description: values.movieDescription || fetchMovie.Plot,
+          rating:
+            fetchMovie.imdbRating && fetchMovie.imdbRating !== "N/A"
+              ? fetchMovie.imdbRating
+              : "0",
         },
       },
     });
@@ -84,9 +93,11 @@ const AddMovie = () => {
   };
   const handleOk = () => {
     formInstance.submit();
-    setModalText("The modal will be closed after two seconds");
+
     setConfirmLoading(true);
     setTimeout(() => {
+      formInstance.resetFields();
+
       setOpen(false);
       setConfirmLoading(false);
     }, 2000);
@@ -193,16 +204,11 @@ const AddMovie = () => {
                   />
                 </Form.Item>
                 <Form.Item label="Movie Genre" name="movieGenre">
-                  <Input
+                  <Select
+                    mode="tags"
                     size="large"
-                    placeholder="e.g. Sci-Fi, Action, Thriller"
-                    value={form.movieGenre}
-                    onChange={(e) => {
-                      setForm({
-                        ...form,
-                        movieGenre: e.target.value,
-                      });
-                    }}
+                    placeholder="e.g. Animation, Thriller"
+                    tokenSeparators={[","]}
                   />
                 </Form.Item>
                 <Form.Item label="Description" name="movieDescription">

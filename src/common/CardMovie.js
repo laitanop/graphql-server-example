@@ -12,7 +12,7 @@ const CardMovie = ({ movie }) => {
       cover={
         <img
           draggable={false}
-          alt="example"
+          alt={movie.name.toUpperCase() + " IMAGE"}
           src={movie.image}
           height={400}
           width={300}
@@ -27,7 +27,7 @@ const CardMovie = ({ movie }) => {
     >
       <Meta
         style={{ height: 300 }}
-        title={movie.name}
+        title={movie.name.toUpperCase()}
         description={
           <div>
             <div style={{ display: "flex", gap: 10 }}>

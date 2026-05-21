@@ -10,7 +10,7 @@ const { Title, Text } = Typography;
 
 const GET_MOVIES_LIST = gql`
   query GetMovies {
-    moviesCollection {
+    moviesCollection(orderBy: [{ id: DescNullsLast }]) {
       edges {
         node {
           id
