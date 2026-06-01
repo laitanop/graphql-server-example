@@ -1,6 +1,8 @@
 import React from "react";
-import { LikeOutlined } from "@ant-design/icons";
-import { Card, Typography } from "antd";
+
+import { Card, Typography, Tooltip } from "antd";
+import DeleteMovie from "../DeleteMovie";
+import UpdateLikeMovie from "../UpdateLikeMovie";
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -21,7 +23,10 @@ const CardMovie = ({ movie }) => {
       }
       actions={[
         <span key="like" style={{ cursor: "pointer", color: "blue" }}>
-          <LikeOutlined /> {movie.likes}
+          <UpdateLikeMovie id={movie.id} likes={movie.likes} />
+        </span>,
+        <span key="delete" style={{ cursor: "pointer", color: "red" }}>
+          <DeleteMovie id={movie.id} />
         </span>,
       ]}
     >

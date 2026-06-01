@@ -1,24 +1,19 @@
 import React from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import { UserList } from "./UserList";
 import {
   Avatar,
-  Badge,
   Divider,
   Layout,
   Space,
-  Tag,
   Tooltip,
   Typography,
   Tabs,
 } from "antd";
 import {
   ApiOutlined,
-  BellOutlined,
   GithubOutlined,
   PlayCircleOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import "./App.css";
 import MovieList from "./MovieList";
@@ -55,16 +50,6 @@ function App() {
       ),
       children: <MovieList />,
     },
-    {
-      key: "2",
-      label: (
-        <span className="app-tab-label">
-          <UserOutlined />
-          Users
-        </span>
-      ),
-      children: <UserList />,
-    },
   ];
   return (
     <ApolloProvider client={client}>
@@ -80,19 +65,15 @@ function App() {
                   GraphQL Directory
                 </Title>
                 <Text className="app-header-subtitle">
-                  Movies & users · Apollo Client
+                  Portfolio Project · GraphQL · Apollo Client · Supabase
                 </Text>
               </div>
             </Space>
 
             <Space align="center" size={4} className="app-nav">
-              <Tag color="geekblue" bordered={false} className="app-nav-tag">
-                v1.0
-              </Tag>
-              <Divider type="vertical" className="app-nav-divider" />
               <Tooltip title="View on GitHub">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/laitanop/graphql-server-example"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="app-nav-icon-btn"
@@ -101,17 +82,7 @@ function App() {
                   <GithubOutlined />
                 </a>
               </Tooltip>
-              <Tooltip title="Notifications">
-                <Badge count={3} size="small">
-                  <button
-                    type="button"
-                    className="app-nav-icon-btn"
-                    aria-label="Notifications, 3 unread"
-                  >
-                    <BellOutlined />
-                  </button>
-                </Badge>
-              </Tooltip>
+
               <Divider type="vertical" className="app-nav-divider" />
               <Tooltip title="Signed in as admin">
                 <Avatar

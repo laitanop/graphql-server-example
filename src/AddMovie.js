@@ -63,7 +63,6 @@ const AddMovie = () => {
     setForm({ movieName: "", imageLink: "" });
   };
   const onFinish = async (values) => {
-    // const fetchMovie = await fetchMovieInfo(values.movieName);
     const fetchMovie = await fetchMovieInfo(values.movieName);
 
     await addMovie({
