@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Typography, Tooltip } from "antd";
+import { Card, Typography } from "antd";
 import DeleteMovie from "../DeleteMovie";
 import UpdateLikeMovie from "../UpdateLikeMovie";
 
